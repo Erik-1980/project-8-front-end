@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Form = () => {
-  const [formAction, setFormAction] = useState("");
+  const [formAction, setFormAction] = useState("login");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,9 +19,10 @@ const Form = () => {
       if (data.message){
         alert(data.message)
       }
-      if (formAction === "login") {
+      if (formAction === "login" && data.token) {
         localStorage.setItem("token", data.token);
         localStorage.setItem('email', email);
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error:", error);

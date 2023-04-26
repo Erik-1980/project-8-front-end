@@ -28,6 +28,7 @@ if (token) {
       } 
       return await fetch(url, options)
     } else {
+        localStorage.clear()
         window.location.href = "/";
     };
 } else {

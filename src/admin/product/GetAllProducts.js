@@ -44,11 +44,13 @@ export default function GetAllProducts() {
           <tbody>
             {products.map((item, index) => (
               <tr key={index}>
-                {Object.values(item).map((value, index) => (
-                  <td key={index}>{value || "N/A"} </td>
-                ))}
+              {Object.values(item).map((value, index) => (
+                <td key={index}>{value || "N/A"} </td>
+              ))}
+              <td>
                 <DeleteProduct productId={item.id}/>
-              </tr>
+              </td>
+            </tr>
             ))}
           </tbody>
         </table>

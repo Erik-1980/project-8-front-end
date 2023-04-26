@@ -8,8 +8,12 @@ import AddCategory from './product/AddCategory';
 import GetAllProducts from './product/GetAllProducts';
 import GetOneProduct from './product/GetOneProduct';
 import UpdateProduct from './product/UpdateProduct';
+import {admin} from '../Setting'
 
 export default function HomeAdmin () {
+  if(!admin){
+    window.location.href = "/";
+  }
 
   return (
     <div>

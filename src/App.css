@@ -95,6 +95,7 @@ a {
 
 .get-user {
   margin-top: 100px;
+  margin-left: 50px;
 }
 
 table {
@@ -109,4 +110,11 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+.showimage {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+margin-right: 300px;
 }

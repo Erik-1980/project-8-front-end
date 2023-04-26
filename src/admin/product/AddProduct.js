@@ -7,7 +7,7 @@ export default function AddProducts() {
   const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
 
@@ -24,12 +24,20 @@ export default function AddProducts() {
       return
     }
     const url = `http://localhost:5000/product`;
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('model', model);
+    formData.append('price', price);
+    formData.append('quantity', quantity);
+    formData.append('image', image);
+    formData.append('description', description);
+    formData.append('categoryId', categoryId);
+
     try {
       const response = await fetchWithAuth(url, {
         method: "POST",
-        body: JSON.stringify({ name, model, price, quantity, image, description, categoryId }),
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           Authorization: token,
         },
       });
@@ -43,12 +51,17 @@ export default function AddProducts() {
         setModel("");
         setPrice("");
         setQuantity("");
-        setImage("");
+        setImage(null);
         setDescription("");
       }
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImage(file);
   };
 
   return (
@@ -67,7 +80,7 @@ export default function AddProducts() {
         <label htmlFor="model">Model:</label>
         <input
           type="text"
-          id="name"
+          id="model"
           value={model}
           onChange={(event) => setModel(event.target.value)}
         />
@@ -90,10 +103,9 @@ export default function AddProducts() {
 
         <label htmlFor="image">Image:</label>
         <input
-          type="text"
+          type="file"
           id="image"
-          value={image}
-          onChange={(event) => setImage(event.target.value)}
+          onChange={handleImageChange}
         />
 
         <label htmlFor="description">Description:</label>
@@ -101,7 +113,7 @@ export default function AddProducts() {
           id="description"
           value={description}
           onChange={(event) => setDescription(event.target.value)}>
-          </textarea>
+        </textarea>
 
         <button type="submit" disabled={!token}>
           Add Product

@@ -7,6 +7,7 @@ export default function GetOneProduct() {
   const [product, setProduct] = useState([]);
   const [value, setValue] = useState("");
   const [id, setId] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -27,8 +28,8 @@ export default function GetOneProduct() {
       } else {
         const product_info = Object.entries(data.product);
         setProduct(product_info);
-        const productId = data.product.id;
-        setId(productId)
+        setId(data.product.id);
+        setImageSrc(`http://localhost:5000/${data.product.image}`);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -41,6 +42,7 @@ export default function GetOneProduct() {
         GET PRODUCT
       </button>
       <br />
+      <div className="showimage">
       <table>
         <tbody>
           {product.map(([key, value]) => (
@@ -51,6 +53,12 @@ export default function GetOneProduct() {
           ))}
         </tbody>
       </table>
+       {imageSrc ? (
+                <img src={imageSrc} alt={product.name} width={600}/>
+              ) : (
+                <div>No image available</div>
+              )}
+      </div>
       <DeleteProduct productId={id}/>
     </div>
   );

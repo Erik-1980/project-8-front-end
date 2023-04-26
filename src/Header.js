@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom';
 import LoginRegister from './LoginRegister';
 import { useState } from 'react';
+import {admin} from './Setting'
 
 export default function Header() {
   const [showForm, setShowForm] = useState();
-  const admins = ['user33333@mail.ru'];
-  const email = localStorage.getItem('email');
- 
-  const admin = admins.find((value) => {
-    return value === email;
-  });
-  
+
+  const email = localStorage.getItem('email');  
+
   return (
     <header>
       <div className="header">
@@ -18,7 +15,7 @@ export default function Header() {
           <li><Link to='/'>Home</Link></li>
           <li><Link to='/catalog'>Catalog</Link></li>
           <li><Link to='/about'>About</Link></li>
-          {admin === email && <li><Link to='/admin'>Admin</Link></li>}
+          {admin  && <li><Link to='/admin'>Admin</Link></li>}
           {email ? ( 
             <button onClick={() => setShowForm(true)} className='modal-button'>Logout</button>
           ) : (

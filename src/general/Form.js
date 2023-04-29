@@ -1,7 +1,11 @@
 import { useState } from "react";
+import MessageBox from "../admin/product/MessageBox";
 
 const Form = () => {
+
   const [formAction, setFormAction] = useState("login");
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,7 +21,8 @@ const Form = () => {
       });
       const data = await response.json();
       if (data.message){
-        alert(data.message)
+        setShowModalMessage(true)
+        setMessage(data.message)
       }
       if (formAction === "login" && data.token) {
         localStorage.setItem("token", data.token);
@@ -31,6 +36,10 @@ const Form = () => {
 
   const handleButtonClick = (action) => {
     setFormAction(action);
+  };
+
+  const handleCancel = () => {
+    setShowModalMessage(false);
   };
 
   return (
@@ -53,6 +62,12 @@ const Form = () => {
       <button onClick={() => handleButtonClick("login")}>Login</button>
       <button onClick={() => handleButtonClick("register")}>Register</button>
       <br />
+      {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
     </div>
   );
 };

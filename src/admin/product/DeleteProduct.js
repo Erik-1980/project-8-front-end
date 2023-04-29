@@ -1,9 +1,17 @@
-import { fetchWithAuth } from '../../RefreshToken';
+import { useState } from 'react';
+import { fetchWithAuth } from '../../general/RefreshToken';
+import ModalConfirm from './ModalConfirm';
+import MessageBox from "./MessageBox";
 
 export default function DeleteProduct({ productId }) {
+
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [message, setMessage] = useState("");
+
   const token = localStorage.getItem('token');
 
-  const handleDeleteProduct = async () => {
+    const handleDeleteProduct = async () => {
     const url = `http://localhost:5000/product/${productId}`;
     try {
       const response = await fetchWithAuth(url, {
@@ -13,17 +21,42 @@ export default function DeleteProduct({ productId }) {
         },
       });
       const data = await response.json();
-      alert(data.message);
+      setShowModalMessage(true)
+      setMessage(data.message);
     } catch (error) {
       console.error('Error:', error);
     }
   };
+ 
+  const handleConfirmDelete = () => {
+    setShowModalConfirm(false);
+    handleDeleteProduct();
+  };
+
+  const handleCancelDelete = () => {
+    setShowModalConfirm(false);
+  };
+
+  const handleCancel = () => {
+    setShowModalMessage(false);
+  };
 
   return (
     <>
-        <button onClick={handleDeleteProduct} disabled={!token}>
-          DELETE PRODUCT
-        </button>
+        <button onClick={() => setShowModalConfirm(true)} disabled={!token}>DELETE PRODUCT</button>
+        {showModalConfirm &&
+        <ModalConfirm
+          message={'Are you sure you want to remove this product?'}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      }
+      {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
     </>
   );
 }

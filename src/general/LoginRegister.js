@@ -7,7 +7,10 @@ const LoginRegister = () => {
   return (
     <div>
       {isLoggedIn ? (
-        <Logout />
+        <div>
+          <p>Do you really want to exit the page</p>
+          <Logout />
+        </div>
       ) : (
         <Form />
       )}

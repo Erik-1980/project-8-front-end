@@ -1,13 +1,15 @@
 import { useState } from "react";
 import DeleteProduct from "./DeleteProduct";
-import { fetchWithAuth } from '../../RefreshToken';
-
+import { fetchWithAuth } from '../../general/RefreshToken';
+import MessageBox from "./MessageBox";
 
 export default function GetOneProduct() {
   const [product, setProduct] = useState([]);
   const [value, setValue] = useState("");
   const [id, setId] = useState("");
   const [imageSrc, setImageSrc] = useState("");
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -24,7 +26,8 @@ export default function GetOneProduct() {
       });
       const data = await response.json();
       if (data.message) {
-        alert(data.message);
+        setShowModalMessage(true)
+        setMessage(data.message);
       } else {
         const product_info = Object.entries(data.product);
         setProduct(product_info);
@@ -33,8 +36,13 @@ export default function GetOneProduct() {
       }
     } catch (error) {
       console.error("Error:", error);
-    }
+    };
   };
+
+  const handleCancel = () => {
+    setShowModalMessage(false);
+  };  
+
   return (
     <div className="get-user">
       <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
@@ -53,13 +61,15 @@ export default function GetOneProduct() {
           ))}
         </tbody>
       </table>
-       {imageSrc ? (
-                <img src={imageSrc} alt={product.name} width={600}/>
-              ) : (
-                <div>No image available</div>
-              )}
+      <img src={imageSrc} alt={product.name} width={600}/>    
       </div>
       <DeleteProduct productId={id}/>
+      {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
     </div>
   );
 }

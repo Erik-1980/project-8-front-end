@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CategoryList from "./CategoryList";
-import { fetchWithAuth } from '../../RefreshToken';
+import { fetchWithAuth } from '../../general/RefreshToken';
+import MessageBox from "./MessageBox";
 
 export default function AddProducts() {
   const [name, setName] = useState("");
@@ -10,17 +11,21 @@ export default function AddProducts() {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const token = localStorage.getItem("token");
 
   const handleAddProducts = async (event) => {
     event.preventDefault();
     if (!name || !model || !price || !quantity || !image) {
-      alert("Please fill in all fields");
+      setMessage("Please fill in all fields");
+      setShowModalMessage(true);
       return;
     }
     if(!categoryId){
-      alert("Please select a category");
+      setMessage("Please select a category");
+      setShowModalMessage(true);
       return
     }
     const url = `http://localhost:5000/product`;
@@ -44,15 +49,18 @@ export default function AddProducts() {
       
       const data = await response.json();
       if (data.error) {
-        alert(data.error);
+        setMessage(data.error);
+        setShowModalMessage(true);
       } else {
-        alert(data.message);
+        setMessage(data.message);
+        setShowModalMessage(true);
         setName("");
         setModel("");
         setPrice("");
         setQuantity("");
         setImage(null);
         setDescription("");
+        console.log(message);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -62,6 +70,10 @@ export default function AddProducts() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(file);
+  };
+
+  const handleCancel = () => {
+    setShowModalMessage(false);
   };
 
   return (
@@ -119,6 +131,12 @@ export default function AddProducts() {
           Add Product
         </button>
       </form>
+      {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
     </div>
   );
 }

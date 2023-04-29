@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CategoryList from "./CategoryList";
-import { fetchWithAuth } from '../../RefreshToken';
+import { fetchWithAuth } from '../../general/RefreshToken';
+import MessageBox from "./MessageBox";
 
 
 export default function UpdateProduct() {
@@ -15,7 +16,9 @@ export default function UpdateProduct() {
     const [image, setImage] = useState("");
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState("");
-  
+    const [showModalMessage, setShowModalMessage] = useState(false);
+    const [message, setMessage] = useState("");
+
     const token = localStorage.getItem("token");
 
   const handleGetOneProduct = async () => {
@@ -30,10 +33,10 @@ export default function UpdateProduct() {
         },
       });
       const data = await response.json();
-      if (data.error) {
-        alert(data.error);
+      if (data.message) {
+        setShowModalMessage(true)
+        setMessage(data.message);
       } else {
-        
         const product_info = Object.entries(data.product);
         setProduct(product_info);
         const id = data.product.id;
@@ -53,11 +56,13 @@ export default function UpdateProduct() {
   const handleUpdateProduct = async (event) => {
     event.preventDefault();
     if (!name ||!model || !price || !quantity || !image) {
-      alert("Please fill in all fields");
+      setShowModalMessage(true)
+      setMessage("Please fill in all fields");
       return;
     };
     if (!categoryId) {
-      alert("Please select a category");
+      setShowModalMessage(true)
+      setMessage("Please select a category");
       return;
     }
     const url = `http://localhost:5000/product/update`;
@@ -72,9 +77,11 @@ export default function UpdateProduct() {
       });
       const data = await response.json();
       if (data.error) {
-        alert(data.error);
+        setShowModalMessage(true)
+        setMessage(data.error);
       } else {
-        alert(data.message);
+        setShowModalMessage(true)
+        setMessage(data.message);
         setName("");
         setModel("");
         setPrice("");
@@ -85,6 +92,10 @@ export default function UpdateProduct() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleCancel = () => {
+    setShowModalMessage(false);
   };
 
   return (
@@ -163,6 +174,12 @@ export default function UpdateProduct() {
       <button type="submit" onClick={handleUpdateProduct} disabled={!token}>
           Update Product
         </button>
+        {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
     </div>
   );
 }

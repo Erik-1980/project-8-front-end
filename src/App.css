@@ -1,29 +1,43 @@
 .header {
-  background-color: #2e22b3;
+  background-color: #0004fa;
   width: 100%;
-  height: 9%;
+  height: 7%;
   position: fixed;
   top: 0px;
   opacity: 0.9;
   background-image: url("C:\Users\USER\Desktop\myproject3\myproject3\public\image\relq.png");
   background-repeat: no-repeat;
-  background-size: 68px 68px;
-  color: #060606;
-  text-shadow: 1px 1px 1px white;
+  background-size: 55px 55px;
+  font-weight: bold;
+  color: rgb(235, 227, 227);
+  font-family: Brush Script MT, Brush Script Std, cursive;   
+  text-shadow:  #ffffff 3px 3px 1px;
 }
 
 li {
 display: inline;
-padding-left: 3%;
-font-size: 20px;
+font-size: 25px;
+}
+
+.header a:link, .header a:visited {
+  text-decoration: none;
+  padding: 15px 35px;
+}
+
+.header a:hover {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  font-family: Brush Script MT, Brush Script Std, cursive;   
+  text-align: center; 
+  text-shadow:  #2e22b3 3px 3px 1px;
 }
 
 .header ul {
-  margin-left: 50px;
+  margin-left: 10px;
+  margin-top: 7px;
 }
 
 a {
-  text-decoration: none;
   color: black;
   font-weight: bolder;
 }
@@ -33,7 +47,7 @@ a {
   font-family: wide latin;   
   text-align: center; 
   text-shadow:  #2e22b3 7px 7px 3px;
-  font-size: 30px;
+  font-size: 25px;
   margin-top: 100px;
   margin-left: 20px;
 } 
@@ -51,7 +65,7 @@ a {
 }
 
 .logoheader {
-  font-size: 50px;
+  font-size: 40px;
   color: rgb(240, 233, 233);;
   text-align: center;
   font-family: wide latin;
@@ -67,35 +81,20 @@ a {
     margin-left: 2%;
 } 
 
-.modal {
-  position: fixed;
-  top: 200px;
-  left: 500px;
-  width: 30%;
-  height: 30%;
-  background-color: rgba(11, 91, 203, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-}
-
-.modal button {
-  margin-top: 10px;
-  border-radius: 7px;
-  background-color: #0bcfc2;
-}
-
-.modal-button {
+.login-button {
   position: absolute;
   right: 0;
+  background-color: #00a2ff;
   margin-right: 20px;
   border-radius: 7px;
+  font-family: Brush Script MT, Brush Script Std, cursive;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .get-user {
-  margin-top: 100px;
-  margin-left: 50px;
+  margin-top: 20px;
+  margin-left: 40px;
 }
 
 table {
@@ -117,4 +116,80 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 margin-right: 300px;
+}
+
+.modal {
+  background-color: #00a2ff;
+  border-radius: 5px;
+  box-shadow: 10px 10px 2px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgb(255, 255, 255);
+  border: 2px solid #000000;
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal input {
+  border-radius: 3px;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+}
+
+.modal button {
+  background-color: hsl(216, 78%, 48%);
+  border: none;
+  border-radius: 3px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #000000;
+  font-weight: bold;
+}
+
+.modal button:hover {
+  background-color: #0032fa;
+}
+
+.modal .close-button {
+  background-color: #000000;
+  border: none;
+  border-radius: 3px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  padding: 2px 6px;
+  position: absolute;
+  width: 20px;
+  height: 18px;
+  right: 10px;
+  top: 5px;
+}
+
+.modal .close-button:hover {
+  background-color: #fe0101;
+}
+
+.adminhome {
+  font-size: 40px;
+  color: rgb(240, 233, 233);;
+  text-align: center;
+  font-family: wide latin;
+  text-shadow:  #2e22b3 7px 7px 3px;
+  margin-top: 70px;
 }

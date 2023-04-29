@@ -8,7 +8,7 @@ import AddCategory from './product/AddCategory';
 import GetAllProducts from './product/GetAllProducts';
 import GetOneProduct from './product/GetOneProduct';
 import UpdateProduct from './product/UpdateProduct';
-import {admin} from '../Setting'
+import {admin} from '../general/config/Setting'
 
 export default function HomeAdmin () {
   if(!admin){

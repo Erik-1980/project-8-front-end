@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DeleteCategory from "./DeleteCategory";
 import CategoryList from "./CategoryList";
-import { fetchWithAuth } from '../../RefreshToken'
+import { fetchWithAuth } from '../../general/RefreshToken';
+import MessageBox from "./MessageBox";
 
 export default function AddCategory() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   const token = localStorage.getItem("token");
   const handleAddCategory = async (event) => {
     event.preventDefault();
     if (!name) {
       alert("Please fill in all required fields");
-      return false;
+      return;
     }
     const url = `http://localhost:5000/product/category`;
     try {
@@ -27,15 +30,21 @@ export default function AddCategory() {
       });
       const data = await response.json();
       if (data.error) {
-        alert(data.error);
+        setShowModalMessage(true);
+        setMessage(data.error)
       } else {
-        alert(data.message);
+        setShowModalMessage(true);
+        setMessage(data.message)
         setName("");
         setDescription("");
+        setCategoryId("");
       }
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+  const handleCancelDelete = () => {
+    setShowModalMessage(false);
   };
 
   return (
@@ -63,6 +72,12 @@ export default function AddCategory() {
       <br />
       <CategoryList onSelectCategory={setCategoryId} />
       <DeleteCategory categoryId={categoryId}/> 
+      {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancelDelete}
+        />
+      }
     </div>
   );
 }

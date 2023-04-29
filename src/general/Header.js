@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import LoginRegister from './LoginRegister';
 import { useState } from 'react';
-import {admin} from './Setting'
+import {admin} from './config/Setting'
 
 export default function Header() {
   const [showForm, setShowForm] = useState();
@@ -17,9 +17,9 @@ export default function Header() {
           <li><Link to='/about'>About</Link></li>
           {admin  && <li><Link to='/admin'>Admin</Link></li>}
           {email ? ( 
-            <button onClick={() => setShowForm(true)} className='modal-button'>Logout</button>
+            <button onClick={() => setShowForm(true)} className='login-button'>Logout</button>
           ) : (
-            <button onClick={() => setShowForm(true)} className='modal-button'>Login</button>
+            <button onClick={() => setShowForm(true)} className='login-button'>Login</button>
           )}
         </ul> 
       </div>
@@ -28,7 +28,7 @@ export default function Header() {
       {showForm && (
         <div className="modal">
           <LoginRegister />
-          <button onClick={() => setShowForm(false)}>Close</button>
+          <button className='close-button' onClick={() => setShowForm(false)}>X</button>
         </div>
       )}
       

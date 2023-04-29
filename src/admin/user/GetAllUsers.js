@@ -1,8 +1,12 @@
-import { useState } from "react";
-import { fetchWithAuth } from '../../RefreshToken'
+import { useState } from 'react';
+import { fetchWithAuth } from '../../general/RefreshToken';
+import MessageBox from '../product/MessageBox';
 
 export default function GetAllUsers() {
     const [users, setUsers] = useState([]);
+    const [showModalMessage, setShowModalMessage] = useState(false);
+    const [message, setMessage] = useState("");
+
     const token = localStorage.getItem("token");
   
     const handleGetUsers = async () => {
@@ -15,7 +19,8 @@ export default function GetAllUsers() {
         });
         const data = await response.json();
         if (data.error) {
-          alert(data.error);
+          setShowModalMessage(true)
+          setMessage(data.error);
         } else {
           const users_info = data.users;
           setUsers(users_info);
@@ -24,7 +29,11 @@ export default function GetAllUsers() {
         console.error("Error:", error);
       }
     };
-  
+
+    const handleCancel = () => {
+      setShowModalMessage(false);
+    };
+
     return (
       <div className="get-user">
         <button onClick={handleGetUsers} disabled={!token}>
@@ -49,6 +58,12 @@ export default function GetAllUsers() {
             ))}
           </tbody>
         </table>
+        {showModalMessage &&
+        <MessageBox
+          message={message}
+          onCancel={handleCancel}
+        />
+      }
       </div>
     );
   }

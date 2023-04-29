@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchWithAuth } from '../../RefreshToken';
+import { fetchWithAuth } from '../../general/RefreshToken';
 
 export default function CategoryList({ onSelectCategory }) {
   const [categories, setCategories] = useState([]);

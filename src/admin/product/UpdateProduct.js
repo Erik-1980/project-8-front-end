@@ -8,7 +8,8 @@ export default function UpdateProduct() {
    
     const [product, setProduct] = useState([]);
     const [value, setValue] = useState("");
-    const [id, setId] = useState("")
+    const [id, setId] = useState("");
+    const [brand, setBrand] = useState("");
     const [name, setName] = useState("");
     const [model, setModel] = useState("");
     const [price, setPrice] = useState("");
@@ -40,7 +41,8 @@ export default function UpdateProduct() {
         const product_info = Object.entries(data.product);
         setProduct(product_info);
         const id = data.product.id;
-        setId(id)
+        setId(id);
+        setBrand(product_info.find(([key]) => key === "brand")[1]);
         setName(product_info.find(([key]) => key === "name")[1]);
         setModel(product_info.find(([key]) => key === "model")[1]);
         setPrice(product_info.find(([key]) => key === "price")[1]);
@@ -55,7 +57,12 @@ export default function UpdateProduct() {
 
   const handleUpdateProduct = async (event) => {
     event.preventDefault();
-    if (!name ||!model || !price || !quantity || !image) {
+    if(!value){
+      setShowModalMessage(true)
+      setMessage("Please select the product you would like to upgrade");
+      return;
+    }
+    if (!brand || !name ||!model || !price || !quantity || !image) {
       setShowModalMessage(true)
       setMessage("Please fill in all fields");
       return;
@@ -69,7 +76,7 @@ export default function UpdateProduct() {
     try {
       const response = await fetchWithAuth(url, {
         method: "PUT",
-        body: JSON.stringify({ id, name, model, price, quantity, image, description, categoryId }),
+        body: JSON.stringify({ id, brand, name, model, price, quantity, image, description, categoryId }),
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
@@ -77,11 +84,12 @@ export default function UpdateProduct() {
       });
       const data = await response.json();
       if (data.error) {
-        setShowModalMessage(true)
+        setShowModalMessage(true);
         setMessage(data.error);
       } else {
         setShowModalMessage(true)
         setMessage(data.message);
+        setBrand("");
         setName("");
         setModel("");
         setPrice("");
@@ -100,8 +108,12 @@ export default function UpdateProduct() {
 
   return (
     <div className="get-user">
-      <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-      <button onClick={handleGetOneProduct} disabled={!token}>
+      <input style={{width: '250px'}}
+      type="text" 
+      value={value} 
+      onChange={(e) => setValue(e.target.value)} 
+      placeholder="Enter product name or ID"/>
+      <button className="add-button" onClick={handleGetOneProduct} disabled={!token}>
         Get Product
       </button>
       <br />
@@ -134,7 +146,9 @@ export default function UpdateProduct() {
               type="text"
               name={key}
               value={
-                  key === "name"
+                    key === "brand" 
+                  ? brand
+                  : key === "name" 
                   ? name
                   : key === "model"
                   ? model
@@ -149,7 +163,9 @@ export default function UpdateProduct() {
                   : ""
               }
               onChange={(e) => {
-                if (key === "name") {
+                if (key === "brand") {
+                  setBrand(e.target.value);
+                }  else if (key === "name") {
                   setName(e.target.value);
                 } else if (key === "model") {
                   setModel(e.target.value);
@@ -171,7 +187,8 @@ export default function UpdateProduct() {
 </tbody>
 
       </table>
-      <button type="submit" onClick={handleUpdateProduct} disabled={!token}>
+      <br/><br/>
+      <button className="add-button" type="submit" onClick={handleUpdateProduct} disabled={!token}>
           Update Product
         </button>
         {showModalMessage &&

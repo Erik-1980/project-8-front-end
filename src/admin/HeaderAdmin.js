@@ -6,7 +6,8 @@ export default function HeaderAdmin() {
     <header>
       <div className="header">
         <ul>
-          <li><Link to='/'>Home</Link></li> 
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/admin'>Main</Link></li> 
           <li><Link to='/admin/getuser'>Get User</Link></li>
           <li><Link to='/admin/getallusers'>Get All Users</Link></li>
           <li><Link to='/admin/addcategory'>Category</Link></li>

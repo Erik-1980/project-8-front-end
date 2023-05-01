@@ -31,7 +31,6 @@ export default function Header() {
           <button className='close-button' onClick={() => setShowForm(false)}>X</button>
         </div>
       )}
-      
     </header>
   );
 }

@@ -4,6 +4,7 @@ import { fetchWithAuth } from '../../general/RefreshToken';
 import MessageBox from "./MessageBox";
 
 export default function AddProducts() {
+  const [brand, setBrand] = useState("");
   const [name, setName] = useState("");
   const [model, setModel] = useState("");
   const [price, setPrice] = useState("");
@@ -18,18 +19,16 @@ export default function AddProducts() {
 
   const handleAddProducts = async (event) => {
     event.preventDefault();
-    if (!name || !model || !price || !quantity || !image) {
-      setMessage("Please fill in all fields");
-      setShowModalMessage(true);
-      return;
-    }
+
     if(!categoryId){
       setMessage("Please select a category");
       setShowModalMessage(true);
       return
     }
+
     const url = `http://localhost:5000/product`;
     const formData = new FormData();
+    formData.append('brand', brand);
     formData.append('name', name);
     formData.append('model', model);
     formData.append('price', price);
@@ -54,13 +53,13 @@ export default function AddProducts() {
       } else {
         setMessage(data.message);
         setShowModalMessage(true);
+        setBrand("");
         setName("");
         setModel("");
         setPrice("");
         setQuantity("");
         setImage(null);
         setDescription("");
-        console.log(message);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -78,43 +77,61 @@ export default function AddProducts() {
 
   return (
     <div className="get-user">
-      <label htmlFor="category">Category:</label>
+      <label htmlFor="category">Category:<span style={{color: '#fe0101'}}>*</span></label>
          <CategoryList onSelectCategory={setCategoryId} />
-      <form onSubmit={handleAddProducts}>
-        <label htmlFor="name">Name:</label>
-        <input
+      <form onSubmit={handleAddProducts} className="form">
+      <label htmlFor="brand">Brand:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
+          type="text"
+          id="brand"
+          value={brand}
+          onChange={(event) => setBrand(event.target.value)}
+          placeholder="Enter product brand"
+          required
+        />
+
+        <label htmlFor="name">Name:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="text"
           id="name"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          placeholder="Enter product name"
+          required
         />
 
-        <label htmlFor="model">Model:</label>
-        <input
+        <label htmlFor="model">Model:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="text"
           id="model"
           value={model}
           onChange={(event) => setModel(event.target.value)}
+          placeholder="Enter product model"
+          required
         />
 
-        <label htmlFor="price">Price:</label>
-        <input
+        <label htmlFor="price">Price:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="text"
           id="price"
           value={price}
           onChange={(event) => setPrice(event.target.value)}
+          placeholder="Enter product price"
+          required
         />
 
-        <label htmlFor="quantity">Quantity:</label>
-        <input
+        <label htmlFor="quantity">Quantity:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="text"
           id="quantity"
           value={quantity}
           onChange={(event) => setQuantity(event.target.value)}
+          placeholder="Enter product quantity"
+          required
         />
 
-        <label htmlFor="image">Image:</label>
-        <input
+        <label htmlFor="image">Image:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="file"
           id="image"
           onChange={handleImageChange}
@@ -124,10 +141,12 @@ export default function AddProducts() {
         <textarea
           id="description"
           value={description}
-          onChange={(event) => setDescription(event.target.value)}>
+          onChange={(event) => setDescription(event.target.value)}
+          placeholder="Enter product description"
+          >
         </textarea>
-
-        <button type="submit" disabled={!token}>
+<br/><br/>
+        <button className="add-button" type="submit" disabled={!token}>
           Add Product
         </button>
       </form>

@@ -1,23 +1,17 @@
 import { useState } from "react";
-import DeleteCategory from "./DeleteCategory";
-import CategoryList from "./CategoryList";
 import { fetchWithAuth } from '../../general/RefreshToken';
 import MessageBox from "./MessageBox";
 
-export default function AddCategory() {
+export default function AddCategory({onCategoryAdd}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [categoryId, setCategoryId] = useState("");
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [message, setMessage] = useState("");
 
   const token = localStorage.getItem("token");
+  
   const handleAddCategory = async (event) => {
-    event.preventDefault();
-    if (!name) {
-      alert("Please fill in all required fields");
-      return;
-    }
+    event.preventDefault();   
     const url = `http://localhost:5000/product/category`;
     try {
       const response = await fetchWithAuth(url, {
@@ -33,29 +27,32 @@ export default function AddCategory() {
         setShowModalMessage(true);
         setMessage(data.error)
       } else {
+        onCategoryAdd();
         setShowModalMessage(true);
         setMessage(data.message)
         setName("");
         setDescription("");
-        setCategoryId("");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
   const handleCancelDelete = () => {
     setShowModalMessage(false);
-  };
+  };  
 
   return (
-    <div className="get-user">
+    <div>
       <form onSubmit={handleAddCategory}>
-        <label htmlFor="name">Name:</label>
-        <input
+        <label htmlFor="name">Name:<span style={{color: '#fe0101'}}>*</span></label>
+        <input style={{width: '250px'}}
           type="text"
           id="name"
           value={name}
           onChange={(event) => setName(event.target.value)}
+          placeholder="Enter category name"
+          required
         />
 
         <label htmlFor="description">Description:</label>
@@ -63,15 +60,15 @@ export default function AddCategory() {
           id="description"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
+          placeholder="Enter category description"
         ></textarea>
+        <br/><br/>
 
-        <button type="submit" disabled={!token}>
-          ADD CATEGORY
+        <button className="add-button" type="submit" disabled={!token}>
+          Add category
         </button>
       </form>
-      <br />
-      <CategoryList onSelectCategory={setCategoryId} />
-      <DeleteCategory categoryId={categoryId}/> 
+      <br/>
       {showModalMessage &&
         <MessageBox
           message={message}

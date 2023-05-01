@@ -45,9 +45,10 @@ export default function GetOneProduct() {
 
   return (
     <div className="get-user">
-      <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-      <button onClick={handleGetOneProduct} disabled={!token}>
-        GET PRODUCT
+      <input type="text" value={value} onChange={(e) => setValue(e.target.value)} style={{width: '250px'}} placeholder="Enter product name or ID"/>
+      <br/><br/>
+      <button className="add-button" onClick={handleGetOneProduct} disabled={!token}>
+        Get product
       </button>
       <br />
       <div className="showimage">

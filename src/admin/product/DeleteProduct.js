@@ -3,7 +3,7 @@ import { fetchWithAuth } from '../../general/RefreshToken';
 import ModalConfirm from './ModalConfirm';
 import MessageBox from "./MessageBox";
 
-export default function DeleteProduct({ productId }) {
+export default function DeleteProduct({ productId, onProductDelete }) {
 
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
@@ -21,6 +21,7 @@ export default function DeleteProduct({ productId }) {
         },
       });
       const data = await response.json();
+      onProductDelete()
       setShowModalMessage(true)
       setMessage(data.message);
     } catch (error) {
@@ -43,7 +44,7 @@ export default function DeleteProduct({ productId }) {
 
   return (
     <>
-        <button onClick={() => setShowModalConfirm(true)} disabled={!token}>DELETE PRODUCT</button>
+        <button className="add-button" onClick={() => setShowModalConfirm(true)} disabled={!token}>Delete</button>
         {showModalConfirm &&
         <ModalConfirm
           message={'Are you sure you want to remove this product?'}

@@ -36,7 +36,7 @@ export default function GetAllUsers() {
 
     return (
       <div className="get-user">
-        <button onClick={handleGetUsers} disabled={!token}>
+        <button className="add-button" onClick={handleGetUsers} disabled={!token}>
           Get All Users
         </button>
         <br />

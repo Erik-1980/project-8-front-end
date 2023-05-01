@@ -8,10 +8,7 @@
   background-image: url("C:\Users\USER\Desktop\myproject3\myproject3\public\image\relq.png");
   background-repeat: no-repeat;
   background-size: 55px 55px;
-  font-weight: bold;
-  color: rgb(235, 227, 227);
-  font-family: Brush Script MT, Brush Script Std, cursive;   
-  text-shadow:  #ffffff 3px 3px 1px;
+  font-family: Brush Script MT, Brush Script Std, cursive;  
 }
 
 li {
@@ -21,15 +18,14 @@ font-size: 25px;
 
 .header a:link, .header a:visited {
   text-decoration: none;
-  padding: 15px 35px;
+  padding: 13px 30px;
 }
 
 .header a:hover {
-  background-color: #ffffff;
+  background-color: rgb(255, 255, 0);
   color: rgb(0, 0, 0);
   font-family: Brush Script MT, Brush Script Std, cursive;   
   text-align: center; 
-  text-shadow:  #2e22b3 3px 3px 1px;
 }
 
 .header ul {
@@ -131,7 +127,8 @@ margin-right: 300px;
   font-size: 20px;
   font-weight: bold;
   text-shadow: 1px 1px 2px rgb(255, 255, 255);
-  border: 2px solid #000000;
+  border: 1px solid #000000;
+  text-align: center;
 }
 
 .modal h2 {
@@ -145,7 +142,7 @@ margin-right: 300px;
 
 .modal input {
   border-radius: 3px;
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   box-sizing: border-box;
   padding: 5px;
   width: 100%;
@@ -153,13 +150,12 @@ margin-right: 300px;
 
 .modal button {
   background-color: hsl(216, 78%, 48%);
-  border: none;
   border-radius: 3px;
   color: rgb(0, 0, 0);
   cursor: pointer;
   padding: 10px;
   width: 100%;
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   font-weight: bold;
 }
 
@@ -192,4 +188,57 @@ margin-right: 300px;
   font-family: wide latin;
   text-shadow:  #2e22b3 7px 7px 3px;
   margin-top: 70px;
+}
+
+input[type="text"], textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+}
+
+input[type="text"] {
+  width: 90%;
+}
+
+textarea {
+  width: 20%;
+  height: 20px;
+  margin-bottom: -15px;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+textarea::placeholder {
+  color: #999;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+label {
+  margin-right: 1rem;
+}
+
+.add-button {
+  right: 0;
+  background-color: #00a2ff;
+  margin-right: 20px;
+  border-radius: 7px;
+  font-family: Brush Script MT, Brush Script Std, cursive;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.mainimageadmin {
+  width: 100px;
+  height: 100px;
+  padding-left: 100px;
+  padding-top: 50px;
 }

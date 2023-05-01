@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeleteProduct from "./DeleteProduct";
 import { fetchWithAuth } from '../../general/RefreshToken';
 import MessageBox from "./MessageBox";
@@ -7,39 +7,45 @@ export default function GetAllProducts() {
     const [products, setProducts] = useState([]);
     const [showModalMessage, setShowModalMessage] = useState(false);
     const [message, setMessage] = useState("");
+    const [deletedProduct, setDeletedProduct] = useState(false);
 
     const token = localStorage.getItem("token");
   
-    const handleGetProducts = async () => {
-      const url = 'http://localhost:5000/product';
-      try {
-        const response = await fetchWithAuth(url, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        const data = await response.json();
-        if (data.error) {
-          setShowModalMessage(true)
-          setMessage(data.error);
-        } else {
-          const product_info = data.products;
-          setProducts(product_info);     
-        }
-      } catch (error) {
-        console.error("Error:", error);
+    useEffect(() => {
+      async function handleGetProducts() {
+          const url = 'http://localhost:5000/product';
+          try {
+            const response = await fetchWithAuth(url, {
+              headers: {
+                Authorization: token,
+              },
+            });
+            const data = await response.json();
+            if (data.error) {
+              setShowModalMessage(true)
+              setMessage(data.error);
+            } else {
+              const product_info = data.products;
+              setProducts(product_info); 
+              setDeletedProduct(false);    
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
       }
-    };
+      handleGetProducts();
+    }, [token, deletedProduct]);
 
     const handleCancel = () => {
       setShowModalMessage(false);
     };
 
+    const handleProductDelete = () => {
+      setDeletedProduct(true);
+    };
+
     return (
       <div className="get-user">
-        <button onClick={handleGetProducts} disabled={!token}>
-          Get All Products
-        </button>
         <br />
         <table>
           <thead>
@@ -59,7 +65,7 @@ export default function GetAllProducts() {
                 <img src={`http://localhost:5000/${item.image}`} alt={item.name} width={70}/>
               </td>
               <td>
-                <DeleteProduct productId={item.id}/>
+                <DeleteProduct productId={item.id} onProductDelete={handleProductDelete}/>
               </td>
             </tr>
             ))}

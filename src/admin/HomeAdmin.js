@@ -4,11 +4,12 @@ import HeaderAdmin from './HeaderAdmin';
 import GetUser from './user/GetUser'
 import GetAllUsers from './user/GetAllUsers'
 import AddProducts from './product/AddProduct';
-import AddCategory from './product/AddCategory';
+import CategoryList from './product/CategoryList';
 import GetAllProducts from './product/GetAllProducts';
 import GetOneProduct from './product/GetOneProduct';
 import UpdateProduct from './product/UpdateProduct';
-import {admin} from '../general/config/Setting'
+import {admin} from '../general/config/Setting';
+import MainPage from './MainPage';
 
 export default function HomeAdmin () {
   if(!admin){
@@ -19,9 +20,10 @@ export default function HomeAdmin () {
     <div>
      <HeaderAdmin />
         <Routes>
+          <Route path = '/' element = {<MainPage />} />
           <Route path = '/getuser' element = {<GetUser />} />
           <Route path = '/getallusers' element = {<GetAllUsers />} />
-          <Route path = '/addcategory' element = {<AddCategory />} />
+          <Route path = '/addcategory' element = {<CategoryList />} />
           <Route path = '/getallproducts' element = {<GetAllProducts />} />
           <Route path = '/getoneproduct' element = {<GetOneProduct />} />
           <Route path = '/addproduct' element = {<AddProducts />} />

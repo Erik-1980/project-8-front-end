@@ -4,7 +4,7 @@ import HeaderAdmin from './HeaderAdmin';
 import GetUser from './user/GetUser'
 import GetAllUsers from './user/GetAllUsers'
 import AddProducts from './product/AddProduct';
-import CategoryList from './product/CategoryList';
+import Category from './product/Category';
 import GetAllProducts from './product/GetAllProducts';
 import GetOneProduct from './product/GetOneProduct';
 import UpdateProduct from './product/UpdateProduct';
@@ -23,7 +23,7 @@ export default function HomeAdmin () {
           <Route path = '/' element = {<MainPage />} />
           <Route path = '/getuser' element = {<GetUser />} />
           <Route path = '/getallusers' element = {<GetAllUsers />} />
-          <Route path = '/addcategory' element = {<CategoryList />} />
+          <Route path = '/addcategory' element = {<Category />} />
           <Route path = '/getallproducts' element = {<GetAllProducts />} />
           <Route path = '/getoneproduct' element = {<GetOneProduct />} />
           <Route path = '/addproduct' element = {<AddProducts />} />

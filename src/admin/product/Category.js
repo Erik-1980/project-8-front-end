@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { fetchWithAuth } from '../../general/RefreshToken';
+import AddCategory from "./AddCategory";
+import DeleteCategory from "./DeleteCategory";
 
-export default function CategoryList({ onSelectCategory }) {
+export default function CategoryList() {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [onCategory, setOnCategory] = useState(false)
 
   const token = localStorage.getItem("token");
 
@@ -17,20 +21,24 @@ export default function CategoryList({ onSelectCategory }) {
         });
         const data = await response.json();
         setCategories(data.categories);
+        setOnCategory(false)
       } catch (error) {
         console.error("Error:", error);
       }
     }
     fetchCategories();
-  }, [token]);
+  }, [token, onCategory]);
 
   const handleSelectCategory = (event) => {
-    onSelectCategory(event.target.value);
+    setSelectedCategory(event.target.value);
   };
+const handleUpdateCategory = () => {
+  setOnCategory(true);
+};
 
   return (
     <div className="get-user">
-      <select onChange={handleSelectCategory}>
+      <select value={selectedCategory} onChange={handleSelectCategory}>
         <option value="">-- Select a category --</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
@@ -38,6 +46,10 @@ export default function CategoryList({ onSelectCategory }) {
           </option>
         ))}
       </select>
+      <br/><br/>
+      <DeleteCategory id={selectedCategory} onCategoryDelete={handleUpdateCategory}/>
+      <br/><br/>
+      <AddCategory onCategoryAdd={handleUpdateCategory}/>
     </div>
   );
 }
